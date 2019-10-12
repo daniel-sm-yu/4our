@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="notificationColor">#000000</color>
+    <color name="redBG">#FF1E00</color>
+    <color name="yellowBG">#FFDA10</color>
+    <color name="blueBG">#3E69F0</color>
+</resources>

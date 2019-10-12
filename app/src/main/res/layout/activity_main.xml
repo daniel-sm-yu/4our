@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity" android:id="@+id/constraintLayout" android:background="@color/yellowBG">
+
+
+    <android.support.v7.widget.GridLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:grid="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/board"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            grid:alignmentMode="alignBounds"
+            grid:columnCount="6"
+            grid:rowCount="6"
+            grid:layout_constraintTop_toTopOf="parent"
+            grid:layout_constraintBottom_toBottomOf="parent"
+            grid:layout_constraintStart_toStartOf="parent"
+            grid:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="128dp"
+            android:layout_marginBottom="128dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/board_bg"
+            android:padding="8dp"
+            app:layout_constraintDimensionRatio="1:1">
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot00"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot01"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot02"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot03"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot04"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot05"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot10"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot11"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot12"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot13"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot14"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot15"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot20"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot21"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot22"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot23"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot24"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot25"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot30"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot31"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot32"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot33"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot34"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot35"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot40"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/empty"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot41"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot42"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot43"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot44"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot45"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot50"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot51"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot52"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot53"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot54"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/yellow"/>
+        <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp" android:id="@+id/slot55"
+                app:layout_rowWeight="1"
+                app:layout_columnWeight="1"
+                app:layout_gravity="fill" grid:srcCompat="@drawable/red"/>
+
+    </android.support.v7.widget.GridLayout>
+
+
+</android.support.constraint.ConstraintLayout>
