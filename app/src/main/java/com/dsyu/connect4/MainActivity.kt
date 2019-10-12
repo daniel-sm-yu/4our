@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val layout = findViewById<View>(R.id.constraintLayout)
+        val winMessage: ImageView = findViewById(R.id.winMessage)
         val grid: GridLayout = findViewById(R.id.board)
         for (i in 0 until grid.childCount) {
             val slot = grid.getChildAt(i)
@@ -30,6 +31,13 @@ class MainActivity : AppCompatActivity() {
                         true -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
                         false -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
                     }
+
+                    // THIS WILL BE REMOVED AFTER WIN CHECKER
+                    when (isYellow) {
+                        true -> winMessage.setImageDrawable(getDrawable(R.drawable.win_red))
+                        false -> winMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
+                    }
+
                     isYellow = !isYellow
                 }
             }
