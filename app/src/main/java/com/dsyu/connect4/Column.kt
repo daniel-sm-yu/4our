@@ -2,8 +2,8 @@ package com.dsyu.connect4
 
 val EMPTY = 0
 val FULL = 6
-val RED = 1
-val BLUE = 2
+val YELLOW = 1
+val RED = 2
 
 class Column {
 
@@ -15,12 +15,19 @@ class Column {
         if (numOfDisc == FULL || color == EMPTY) {
             return
         }
-        column[numOfDisc] = color
+        column[5 - numOfDisc] = color
         numOfDisc++
     }
 
     fun getDisk(row: Int): Int {
         return column[row]
+    }
+
+    fun isFull(): Boolean {
+        if (numOfDisc == FULL) {
+            return true
+        }
+        return false
     }
 
 }

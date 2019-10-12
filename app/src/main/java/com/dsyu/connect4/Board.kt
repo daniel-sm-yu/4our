@@ -26,4 +26,6 @@ object Board {
         board = newBoard
     }
 
+    fun get(i : Int) = board[i]
+
 }
