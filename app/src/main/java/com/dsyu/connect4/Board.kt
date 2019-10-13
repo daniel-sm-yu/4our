@@ -37,6 +37,26 @@ object Board {
                     break
                 } else if (slot == color) {
                     counter++
+                } else {
+                    counter = 0
+                }
+
+                if (counter == 4) {
+                    return true
+                }
+            }
+        }
+
+        // check all rows
+        for (row in 5 downTo 0) {
+            var counter = 0
+            for (col in 5 downTo 0) {
+                val slot = board[col].getDisk(row)
+
+                if (slot == color) {
+                    counter++
+                } else {
+                    counter = 0
                 }
 
                 if (counter == 4) {
