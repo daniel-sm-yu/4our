@@ -28,4 +28,8 @@ object Board {
 
     fun get(i : Int) = board[i]
 
+    fun resetBoard() {
+        board = Array(6) { Column() }
+    }
+
 }

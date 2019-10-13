@@ -18,9 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layout = findViewById<View>(R.id.constraintLayout)
+        val layout: View = findViewById(R.id.constraintLayout)
         val winMessage: ImageView = findViewById(R.id.winMessage)
         val grid: GridLayout = findViewById(R.id.board)
+        val restartButton: ImageView = findViewById(R.id.restartButton)
+
         for (i in 0 until grid.childCount) {
             val slot = grid.getChildAt(i)
             slot.setOnClickListener {
@@ -43,6 +45,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        restartButton.setOnClickListener {
+            Board.resetBoard()
+            updateBoard()
+        }
+
         updateBoard()
     }
 
@@ -60,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         true -> YELLOW
         false -> RED
     }
-
 
     private fun getDiscDrawable(color: Int) = when (color) {
         YELLOW -> getDrawable(R.drawable.yellow)
