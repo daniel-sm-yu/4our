@@ -7,8 +7,8 @@ object Board {
     fun rotateLeft() {
         val newBoard = Array(6) { Column() }
 
-        for (row in 0..6) {
-            for (col in 0..6) {
+        for (row in 0..5) {
+            for (col in 0..5) {
                 newBoard[row].addDisc(board[col].getDisk(row))
             }
         }
@@ -82,6 +82,7 @@ object Board {
         if (checkRowFromTopRight(1,5,color) || checkRowFromTopRight(2,5, color)) {
             return true
         }
+
         return false
     }
 

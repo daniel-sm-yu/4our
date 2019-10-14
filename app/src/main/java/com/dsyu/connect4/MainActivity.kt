@@ -10,7 +10,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var isYellow: Boolean = true
+    private var isYellow = true
+    private var gameOver = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         for (i in 0 until grid.childCount) {
             val slot = grid.getChildAt(i)
             slot.setOnClickListener {
-                if (!Board.get(i % 6).isFull()) {
+                if (!Board.get(i % 6).isFull() && !gameOver) {
                     Board.get(i % 6).addDisc(getDiscColor(isYellow))
                     updateBoard()
 
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         restartButton.setOnClickListener {
+            gameOver = false
             winMessage.visibility = View.GONE
             restartButton.visibility = View.GONE
             Board.resetBoard()
@@ -65,6 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun endGame() {
+        gameOver = true
         restartButton.visibility = View.VISIBLE
         when (isYellow) {
             true -> winMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
