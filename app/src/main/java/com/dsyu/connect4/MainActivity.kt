@@ -1,16 +1,11 @@
 package com.dsyu.connect4
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayout
-import android.text.Layout
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
