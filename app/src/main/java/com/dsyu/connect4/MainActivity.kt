@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayout
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -12,13 +13,14 @@ class MainActivity : AppCompatActivity() {
 
     private var isYellow = true
     private var gameOver = false
+    private var discsUsed = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val layout: View = findViewById(R.id.constraintLayout)
-        val winMessage: ImageView = findViewById(R.id.winMessage)
+        val winMessage: ImageView = findViewById(R.id.gameOverMessage)
         val grid: GridLayout = findViewById(R.id.board)
         val restartButton: ImageView = findViewById(R.id.restartButton)
 
@@ -30,16 +32,19 @@ class MainActivity : AppCompatActivity() {
             slot.setOnClickListener {
                 if (!Board.get(i % 6).isFull() && !gameOver) {
                     Board.get(i % 6).addDisc(getDiscColor(isYellow))
+                    discsUsed++
                     updateBoard()
 
-                    if (Board.winCheck(getDiscColor(isYellow))) {
-                        endGame()
-                    } else {
-                        when (isYellow) {
-                            true -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
-                            false -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
+                    when {
+                        Board.winCheck(getDiscColor(isYellow)) -> endGame()
+                        discsUsed == 36 -> tieGame()
+                        else -> {
+                            when (isYellow) {
+                                true -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
+                                false -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
+                            }
+                            isYellow = !isYellow
                         }
-                        isYellow = !isYellow
                     }
                 }
             }
@@ -47,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
         restartButton.setOnClickListener {
             gameOver = false
+            discsUsed = 0
             winMessage.visibility = View.GONE
             restartButton.visibility = View.GONE
             Board.resetBoard()
@@ -70,10 +76,16 @@ class MainActivity : AppCompatActivity() {
         gameOver = true
         restartButton.visibility = View.VISIBLE
         when (isYellow) {
-            true -> winMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
-            false -> winMessage.setImageDrawable(getDrawable(R.drawable.win_red))
+            true -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
+            false -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_red))
         }
-        winMessage.visibility = View.VISIBLE
+        gameOverMessage.visibility = View.VISIBLE
+    }
+
+    private fun tieGame() {
+        restartButton.visibility = View.VISIBLE
+        gameOverMessage.setImageDrawable(getDrawable(R.drawable.tie))
+        gameOverMessage.visibility = View.VISIBLE
     }
 
     private fun getDiscColor(isYellow: Boolean): Int = when (isYellow) {
