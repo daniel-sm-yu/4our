@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
             updateBoard()
         }
 
-        updateBoard()
     }
 
     private fun updateBoard() {
