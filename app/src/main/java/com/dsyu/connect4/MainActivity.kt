@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayout
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -20,15 +21,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var isYellow = true
     private var gameOver = false
     private var discsUsed = 0
+    private var holdingScreen = false
 
     private lateinit var sensorManager: SensorManager
     private lateinit var gyroscope: Sensor
+    private lateinit var layout: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val layout: View = findViewById(R.id.constraintLayout)
+        this.layout = findViewById(R.id.constraintLayout)
         val winMessage: ImageView = findViewById(R.id.gameOverMessage)
         val grid: GridLayout = findViewById(R.id.board)
         val restartButton: ImageView = findViewById(R.id.restartButton)
@@ -53,10 +56,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                         Board.winCheck(getDiscColor(isYellow)) -> endGame()
                         discsUsed == 36 -> tieGame()
                         else -> {
-                            when (isYellow) {
-                                true -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
-                                false -> layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
-                            }
+                            flipBackgroundColor()
                             isYellow = !isYellow
                         }
                     }
@@ -74,6 +74,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             updateBoard()
         }
 
+        layout.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    holdingScreen = true
+                    true
+                }
+                MotionEvent.ACTION_UP -> {
+                    holdingScreen = false
+                    true
+                }
+                else ->  {false}
+            }
+        }
     }
 
     private fun updateBoard() {
@@ -86,10 +99,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    private fun endGame() {
+    private fun endGame(winnerIsYellow: Boolean = isYellow) {
         gameOver = true
         restartButton.visibility = View.VISIBLE
-        when (isYellow) {
+        when (winnerIsYellow) {
             true -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
             false -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_red))
         }
@@ -111,6 +124,37 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         YELLOW -> getDrawable(R.drawable.yellow)
         RED -> getDrawable(R.drawable.red)
         else -> getDrawable(R.drawable.empty)
+    }
+
+    private fun flipBackgroundColor() {
+        if (isYellow) {
+            layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
+        } else {
+            layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
+        }
+    }
+
+    private fun rotateBoard(directionIsLeft: Boolean) {
+        if (directionIsLeft) {
+            Board.rotateLeft()
+        } else {
+            Board.rotateRight()
+        }
+        updateBoard()
+        val yellowWon = Board.winCheck(YELLOW)
+        val redWon = Board.winCheck(RED)
+
+        if (yellowWon && redWon) {
+            tieGame()
+        } else if (yellowWon) {
+            endGame(true)
+        } else if (redWon) {
+            endGame(false)
+        }
+
+        if (!(yellowWon && redWon) && ((isYellow && redWon) || (!isYellow && yellowWon))) {
+            flipBackgroundColor()
+        }
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
