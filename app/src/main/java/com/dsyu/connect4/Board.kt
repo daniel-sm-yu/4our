@@ -6,7 +6,7 @@ object Board {
 
     fun rotateLeft() {
         val newBoard = Array(6) { Column() }
-
+        // row and column for current board
         for (row in 0..5) {
             for (col in 0..5) {
                 newBoard[row].addDisc(board[col].getDisk(row))
@@ -20,7 +20,7 @@ object Board {
 
         for (row in 5 downTo 0) {
             for (col in 5 downTo 0) {
-                newBoard[row].addDisc(board[col].getDisk(row))
+                newBoard[5 - row].addDisc(board[col].getDisk(row))
             }
         }
         board = newBoard

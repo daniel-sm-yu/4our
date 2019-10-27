@@ -135,6 +135,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun rotateBoard(directionIsLeft: Boolean) {
+        holdingScreen = false
+
         if (directionIsLeft) {
             Board.rotateLeft()
         } else {
@@ -160,10 +162,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type != Sensor.TYPE_GYROSCOPE) return
 
-        if (event.values[2] > 2) {
+        if (event.values[2] > 2 && holdingScreen) {
             Toast.makeText(this, "left", Toast.LENGTH_SHORT).show()
-        } else if (event.values[2] < -2) {
+            rotateBoard(true)
+        } else if (event.values[2] < -2 && holdingScreen) {
             Toast.makeText(this, "right", Toast.LENGTH_SHORT).show()
+            rotateBoard(false)
         }
     }
 
