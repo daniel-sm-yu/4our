@@ -2,7 +2,6 @@ package com.dsyu.connect4
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -101,10 +100,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun updateBoard() {
-        for (row in 0..6) {
-            for (col in 0..6) {
-                val slotId = resources.getIdentifier("slot$row$col", "id", packageName)
-                val slot: ImageView? = findViewById(slotId)
+        for (row in 0..5) {
+            for (col in 0..5) {
+                val slot: ImageView? = findViewById(resources.getIdentifier("slot$row$col", "id", packageName))
                 slot?.setImageDrawable(getDiscDrawable(Board.get(col).getDisk(row)))
             }
         }
