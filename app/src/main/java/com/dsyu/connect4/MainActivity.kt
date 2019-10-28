@@ -7,11 +7,14 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayout
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private lateinit var gyroscope: Sensor
     private lateinit var layout: View
+    private lateinit var grid: GridLayout
+    private lateinit var clockWiseAnimation: Animation
+    private lateinit var counterClockWiseAnimation: Animation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +39,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         this.layout = findViewById(R.id.constraintLayout)
         val winMessage: ImageView = findViewById(R.id.gameOverMessage)
-        val grid: GridLayout = findViewById(R.id.board)
+        this.grid = findViewById(R.id.board)
         val restartButton: ImageView = findViewById(R.id.restartButton)
+
+        this.clockWiseAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_clock_wise)
+        this.counterClockWiseAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.rotate_counter_clock_wise)
 
         this.sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)?.let {
@@ -139,33 +148,46 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         if (directionIsLeft) {
             Board.rotateLeft()
+            grid.startAnimation(counterClockWiseAnimation)
         } else {
             Board.rotateRight()
-        }
-        updateBoard()
-        val yellowWon = Board.winCheck(YELLOW)
-        val redWon = Board.winCheck(RED)
-
-        if (yellowWon && redWon) {
-            tieGame()
-        } else if (yellowWon) {
-            endGame(true)
-        } else if (redWon) {
-            endGame(false)
+            grid.startAnimation(clockWiseAnimation)
         }
 
-        if (!(yellowWon && redWon) && ((isYellow && redWon) || (!isYellow && yellowWon))) {
-            flipBackgroundColor()
-        }
+        val handler = Handler()
+        handler.postDelayed({
+            updateBoard()
+            val yellowWon = Board.winCheck(YELLOW)
+            val redWon = Board.winCheck(RED)
+
+            if (yellowWon && redWon) {
+                tieGame()
+                gameOver = true
+            } else if (yellowWon) {
+                endGame(true)
+                gameOver = true
+            } else if (redWon) {
+                endGame(false)
+                gameOver = true
+            } else {
+                flipBackgroundColor()
+                isYellow = !isYellow
+            }
+
+            if (!(yellowWon && redWon) && ((isYellow && redWon) || (!isYellow && yellowWon))) {
+                flipBackgroundColor()
+            }
+        }, 700)
+
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (event?.sensor?.type != Sensor.TYPE_GYROSCOPE) return
+        if (event?.sensor?.type != Sensor.TYPE_GYROSCOPE || gameOver) return
 
-        if (event.values[2] > 2 && holdingScreen) {
+        if (event.values[2] > 3 && holdingScreen) {
             Toast.makeText(this, "left", Toast.LENGTH_SHORT).show()
             rotateBoard(true)
-        } else if (event.values[2] < -2 && holdingScreen) {
+        } else if (event.values[2] < -3 && holdingScreen) {
             Toast.makeText(this, "right", Toast.LENGTH_SHORT).show()
             rotateBoard(false)
         }
