@@ -1,5 +1,8 @@
 package com.dsyu.connect4
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -16,7 +19,6 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -136,11 +138,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun flipBackgroundColor() {
+        var startColor = ContextCompat.getColor(this, R.color.bgRed)
+        var endColor = ContextCompat.getColor(this, R.color.bgYellow)
+
         if (isYellow) {
-            layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgRed))
-        } else {
-            layout.setBackgroundColor(ContextCompat.getColor(this, R.color.bgYellow))
+            startColor = endColor.also { endColor = startColor }
         }
+
+        val objectAnimator = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), startColor, endColor)
+        objectAnimator.duration = 200
+        objectAnimator.start()
     }
 
     private fun rotateBoard(directionIsLeft: Boolean) {
@@ -185,10 +192,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         if (event?.sensor?.type != Sensor.TYPE_GYROSCOPE || gameOver) return
 
         if (event.values[2] > 3 && holdingScreen) {
-            Toast.makeText(this, "left", Toast.LENGTH_SHORT).show()
             rotateBoard(true)
         } else if (event.values[2] < -3 && holdingScreen) {
-            Toast.makeText(this, "right", Toast.LENGTH_SHORT).show()
             rotateBoard(false)
         }
     }
