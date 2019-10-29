@@ -20,6 +20,8 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
 import android.view.ViewAnimationUtils
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -75,8 +77,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         restartButton.setOnClickListener {
             gameOver = false
             discsUsed = 0
-            winMessage.visibility = View.INVISIBLE
-            restartButton.visibility = View.INVISIBLE
+            hideImage(winMessage)
+            hideImage(restartButton)
             Board.resetBoard()
             updateBoard()
         }
@@ -186,12 +188,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun revealImage(image: ImageView) {
         val cx = image.width / 2
         val cy = image.height / 2
-
         val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
 
         val anim = ViewAnimationUtils.createCircularReveal(image, cx, cy, 0f, finalRadius)
-        anim.duration = 400
         image.visibility = View.VISIBLE
+        anim.start()
+    }
+
+    private fun hideImage(image: ImageView) {
+        val cx = image.width / 2
+        val cy = image.height / 2
+        val initialRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+        val anim = ViewAnimationUtils.createCircularReveal(image, cx, cy, initialRadius, 0f)
+        anim.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                super.onAnimationEnd(animation)
+                image.visibility = View.INVISIBLE
+            }
+        })
         anim.start()
     }
 
