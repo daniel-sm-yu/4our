@@ -19,13 +19,14 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
+import android.view.ViewAnimationUtils
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var isYellow = true
     private var gameOver = false
-    private var discsUsed = 0
     private var holdingScreen = false
+    private var discsUsed = 0
 
     private lateinit var sensorManager: SensorManager
     private lateinit var gyroscope: Sensor
@@ -51,9 +52,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             this.gyroscope = it
         }
 
-        winMessage.visibility = View.GONE
-        restartButton.visibility = View.GONE
-
         for (i in 0 until grid.childCount) {
             val slot = grid.getChildAt(i)
             slot.setOnClickListener {
@@ -72,14 +70,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     }
                 }
             }
-            updateBoard()
         }
 
         restartButton.setOnClickListener {
             gameOver = false
             discsUsed = 0
-            winMessage.visibility = View.GONE
-            restartButton.visibility = View.GONE
+            winMessage.visibility = View.INVISIBLE
+            restartButton.visibility = View.INVISIBLE
             Board.resetBoard()
             updateBoard()
         }
@@ -110,18 +107,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private fun endGame(winnerIsYellow: Boolean = isYellow) {
         gameOver = true
-        restartButton.visibility = View.VISIBLE
         when (winnerIsYellow) {
             true -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
             false -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_red))
         }
-        gameOverMessage.visibility = View.VISIBLE
+        revealImage(gameOverMessage)
+        revealImage(restartButton)
     }
 
     private fun tieGame() {
-        restartButton.visibility = View.VISIBLE
         gameOverMessage.setImageDrawable(getDrawable(R.drawable.tie))
-        gameOverMessage.visibility = View.VISIBLE
+        revealImage(gameOverMessage)
+        revealImage(restartButton)
     }
 
     private fun getDiscColor(isYellow: Boolean): Int = when (isYellow) {
@@ -133,19 +130,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         YELLOW -> getDrawable(R.drawable.yellow)
         RED -> getDrawable(R.drawable.red)
         else -> getDrawable(R.drawable.empty)
-    }
-
-    private fun flipBackgroundColor() {
-        var startColor = ContextCompat.getColor(this, R.color.bgRed)
-        var endColor = ContextCompat.getColor(this, R.color.bgYellow)
-
-        if (isYellow) {
-            startColor = endColor.also { endColor = startColor }
-        }
-
-        val objectAnimator = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), startColor, endColor)
-        objectAnimator.duration = 200
-        objectAnimator.start()
     }
 
     private fun rotateBoard(directionIsLeft: Boolean) {
@@ -184,6 +168,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }, 700)
 
+    }
+
+    private fun flipBackgroundColor() {
+        var startColor = ContextCompat.getColor(this, R.color.bgRed)
+        var endColor = ContextCompat.getColor(this, R.color.bgYellow)
+
+        if (isYellow) {
+            startColor = endColor.also { endColor = startColor }
+        }
+
+        val objectAnimator = ObjectAnimator.ofObject(layout, "backgroundColor", ArgbEvaluator(), startColor, endColor)
+        objectAnimator.duration = 200
+        objectAnimator.start()
+    }
+
+    private fun revealImage(image: ImageView) {
+        val cx = image.width / 2
+        val cy = image.height / 2
+
+        val finalRadius = Math.hypot(cx.toDouble(), cy.toDouble()).toFloat()
+
+        val anim = ViewAnimationUtils.createCircularReveal(image, cx, cy, 0f, finalRadius)
+        anim.duration = 400
+        image.visibility = View.VISIBLE
+        anim.start()
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
