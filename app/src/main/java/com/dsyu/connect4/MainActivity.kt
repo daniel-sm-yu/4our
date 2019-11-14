@@ -98,11 +98,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-    private fun updateBoard() {
+    private fun updateBoard(afterRotation: Boolean = false) {
         for (row in 0..5) {
             for (col in 0..5) {
                 val slot: ImageView? = findViewById(resources.getIdentifier("slot$row$col", "id", packageName))
-                slot?.setImageDrawable(getDiscDrawable(Board.get(col).getDisk(row)))
+                val newDiscInt = Board.get(col).getDisk(row)
+                val newDisc = getDiscDrawable(newDiscInt)
+                val oldDisc = slot?.drawable
+
+                if (newDisc?.constantState != oldDisc?.constantState || afterRotation) {
+                    slot?.setImageDrawable(newDisc)
+                    if (newDiscInt != EMPTY)
+                        slot?.let { revealImage(it) }
+                }
             }
         }
     }
@@ -147,7 +155,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         val handler = Handler()
         handler.postDelayed({
-            updateBoard()
+            updateBoard(true)
             val yellowWon = Board.winCheck(YELLOW)
             val redWon = Board.winCheck(RED)
 
