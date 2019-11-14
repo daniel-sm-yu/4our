@@ -126,6 +126,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     private fun tieGame() {
+        gameOver = true
         gameOverMessage.setImageDrawable(getDrawable(R.drawable.tie))
         revealImage(gameOverMessage)
         revealImage(restartButton)
