@@ -162,20 +162,21 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
             if (yellowWon && redWon) {
                 tieGame()
-                gameOver = true
             } else if (yellowWon) {
                 endGame(true)
-                gameOver = true
+                if (!isYellow) {
+                    flipBackgroundColor()
+                    isYellow = true
+                }
             } else if (redWon) {
                 endGame(false)
-                gameOver = true
+                if (isYellow) {
+                    flipBackgroundColor()
+                    isYellow = false
+                }
             } else {
                 flipBackgroundColor()
                 isYellow = !isYellow
-            }
-
-            if (!(yellowWon && redWon) && ((isYellow && redWon) || (!isYellow && yellowWon))) {
-                flipBackgroundColor()
             }
         }, 700)
 
@@ -234,11 +235,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sensorManager!!.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME)
+        sensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_GAME)
     }
 
     override fun onPause() {
         super.onPause()
-        sensorManager!!.unregisterListener(this)
+        sensorManager.unregisterListener(this)
     }
 }
