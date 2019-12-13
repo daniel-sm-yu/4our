@@ -10,7 +10,6 @@ class Column {
     private var column = Array(FULL) { EMPTY }
     private var numOfDisc = 0
 
-    // Player 1 is red
     fun addDisc(color: Int) {
         if (numOfDisc == FULL || color == EMPTY) {
             return
@@ -23,11 +22,5 @@ class Column {
         return column[row]
     }
 
-    fun isFull(): Boolean {
-        if (numOfDisc == FULL) {
-            return true
-        }
-        return false
-    }
-
+    fun isFull(): Boolean = numOfDisc == FULL
 }

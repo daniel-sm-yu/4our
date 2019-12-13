@@ -67,26 +67,26 @@ object Board {
 
         // check diagonals from top-left to bottom-right
         for (i in 2 downTo 0) {
-            if (checkRowFromTopLeft(i, 0, color) || checkRowFromTopLeft(0, i, color)) {
+            if (checkDiagonalFromTopLeft(i, 0, color) || checkDiagonalFromTopLeft(0, i, color)) {
                     return true
             }
         }
 
         // check diagonals from top-right to bottom-left
         for (i in 3..5) {
-            if (checkRowFromTopRight(0, i, color)) {
+            if (checkDiagonalFromTopRight(0, i, color)) {
                 return true
             }
         }
 
-        if (checkRowFromTopRight(1,5,color) || checkRowFromTopRight(2,5, color)) {
+        if (checkDiagonalFromTopRight(1,5,color) || checkDiagonalFromTopRight(2,5, color)) {
             return true
         }
 
         return false
     }
 
-    private fun checkRowFromTopLeft(row: Int, col: Int, color: Int): Boolean {
+    private fun checkDiagonalFromTopLeft(row: Int, col: Int, color: Int): Boolean {
         var counter = 0
         var currentRow = row
         var currentCol = col
@@ -108,7 +108,7 @@ object Board {
         return false
     }
 
-    private fun checkRowFromTopRight(row: Int, col: Int, color: Int): Boolean {
+    private fun checkDiagonalFromTopRight(row: Int, col: Int, color: Int): Boolean {
         var counter = 0
         var currentRow = row
         var currentCol = col
@@ -130,7 +130,7 @@ object Board {
         return false
     }
 
-    fun get(i : Int) = board[i]
+    fun getColumn(i : Int) = board[i]
 
     fun resetBoard() {
         board = Array(6) { Column() }

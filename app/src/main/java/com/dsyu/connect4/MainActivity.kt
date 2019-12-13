@@ -1,5 +1,7 @@
 package com.dsyu.connect4
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -7,7 +9,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
@@ -15,13 +16,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayout
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewAnimationUtils
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import kotlinx.android.synthetic.main.activity_main.*
-import android.view.ViewAnimationUtils
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
 
@@ -57,8 +56,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         for (i in 0 until grid.childCount) {
             val slot = grid.getChildAt(i)
             slot.setOnClickListener {
-                if (!Board.get(i % 6).isFull() && !gameOver) {
-                    Board.get(i % 6).addDisc(getDiscColor(isYellow))
+                if (!Board.getColumn(i % 6).isFull() && !gameOver) {
+                    Board.getColumn(i % 6).addDisc(getDiscColor(isYellow))
                     discsUsed++
                     updateBoard()
 
@@ -102,7 +101,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         for (row in 0..5) {
             for (col in 0..5) {
                 val slot: ImageView? = findViewById(resources.getIdentifier("slot$row$col", "id", packageName))
-                val newDiscInt = Board.get(col).getDisk(row)
+                val newDiscInt = Board.getColumn(col).getDisk(row)
                 val newDisc = getDiscDrawable(newDiscInt)
                 val oldDisc = slot?.drawable
 
@@ -117,6 +116,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private fun endGame(winnerIsYellow: Boolean = isYellow) {
         gameOver = true
+
+        if (winnerIsYellow != isYellow) {
+            flipBackgroundColor()
+            isYellow = winnerIsYellow
+        }
+
         when (winnerIsYellow) {
             true -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_yellow))
             false -> gameOverMessage.setImageDrawable(getDrawable(R.drawable.win_red))
@@ -164,22 +169,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 tieGame()
             } else if (yellowWon) {
                 endGame(true)
-                if (!isYellow) {
-                    flipBackgroundColor()
-                    isYellow = true
-                }
             } else if (redWon) {
                 endGame(false)
-                if (isYellow) {
-                    flipBackgroundColor()
-                    isYellow = false
-                }
             } else {
                 flipBackgroundColor()
                 isYellow = !isYellow
             }
         }, 700)
-
     }
 
     private fun flipBackgroundColor() {
